@@ -33,7 +33,7 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
           $MyExp_Message = $this->getConfig()->get("MyExp_Message");
           $name = $e->getPlayer()->getName();
           case "$exp_command":
-            $sender->sendMessage(TextFormat::GREEN . $MyExp_Message." ".$exp);
+            $sender->sendMessage(TextFormat::GREEN . "You have ".$exp);
             break;
           
           case "$addexp_command":
