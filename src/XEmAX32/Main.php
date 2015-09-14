@@ -1,5 +1,10 @@
 <?php
 
+      #############################
+      #   Experience By XEmAX32   #
+      #     v1.0 in Development   #
+      #############################
+      
 namespace XEmAX32\Main;
 
 use pocketmine\plugin\PluginBase;
@@ -36,17 +41,27 @@ $this->experience->set($player, array($FirstJoinExperience);
   }
 }
 
+public function PopupExperience(PlayerMoveEvent $e){
+$exp = $this->experience->get("$name");
+if($this->getConfig()->get("Popup_Show_Experience") == "true"){
+  $player->sendPopup(TextFormat::GREEN . "You Experience: ".$exp)
+  }
+}
+
 public function OnInteract(PlayerInteractEvent $e){
 $p = $e->getPlayer();
+$name = $e->getPlayer()->getName();
+$Exp_Bottle_Quantity = $this->getConfig()->get("Exp_Bottle_Quantity");
 if($p->getInventory()->getItemOnHand() == Item::/*devo trovare un item da mettere xD*/){
 $p->getInventory()->removeItem(Item::$Exp_Bottle);
+$this->points->set($name [] + $Exp_Bottle_Quantity);
 }
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(strtolower($command->getName()){
           $addexp_command = $this->getConfig()->get("AddExp_Command");
           $exp_command = $this->getConfig()->get("MyExp_Command");
-          $exp = $this->experience->get("$player");
+          $exp = $this->experience->get("$name");
           $rmexp_command = $this->getConfig()->get("RmExp_Command");
           $quantity = 
           $name = $e->getPlayer()->getName();
@@ -58,7 +73,7 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
             if($sender->hasPermission("experience.addexp")){
             $sender->sendMessage(TextFormat::GREEN . "Succesfully added ".$quantity TextFormat::GREEN . "to ".$name);
             break;
-            $this->experience->set($name)
+            $this->experience->set($name [] + $quantity);
             }else{
               $sender->sendMessage(TextFormat::RED . "You don't have permissions for run this command");
             }
@@ -67,6 +82,7 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
           case "$rmexp_command":
             if($sender->hasPermission("experience.rmexp")){
             $sender->sendMessage(TextFormat::GREEN . "Succesfully removed ".$quantity TextFormat::GREEN . "to ".$name);
+            $this->experience->set($name [] - $quantity);
             }else{
               $sender->sendMessage(TextFormat::RED . "You don't have permissions for run this command")
             }
@@ -80,12 +96,29 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
     $line1 = $e->getLine(1);
     $line2 = $e->getLine(2);
     $line3 = $e->getLine(3);
+    $line4 = $e->getLine(4);
     $secretcode = $this->getConfig()->get("Secret_Code");
     if($ID == 68 or $ID == 63){
       if($line1 == $secretcode){
-        $rmexperience = $line3
-        $addenchant = $line2
-      }
+        $rmexperience = $line3;
+        $item = $p->getInventory()->getItemOnHand();
+        $addenchant = $line2;
+        $level = $line4;
+        $name = $e->getPlayer()->getName();
+           $this->experience->set($name [] - $rmexperience);
+               $item->addEnchantment($enchantment);
+                $enchantment = Enchantment::getEnchantment($addenchant);
+                $enchantment->setLevel($level);
+        }
       }
   }
+
+public function onPlace(BlockPlaceEvent $e){
+$line1 = $e->getLine(1);
+$secretcode = $this->getConfig()->get("Secret_Code");
+if($ID == 68 or $ID == 63 && $line1 == $secretcode){
+  $e->setLine(1) == TextFormat::GREEN . "[Enchanter]" 
+  
+}
+}
 }
