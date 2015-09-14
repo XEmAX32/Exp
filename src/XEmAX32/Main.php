@@ -14,6 +14,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 use pocketmine\block;
+use pocketmine\event\player\PlayerAchievementAwardedEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -25,7 +26,7 @@ public function onEnable(){
 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 $this->getLogger()->info(TextFormat::BLUE . "EXP enabled!");
 $this->saveDefaultConfig();
-$this->experience = new Config($this->getDataFolder()."experience.yml", Config::YAML);
+$this->experience = new Config($this->getDataFolder()."experience.properties", Config::PROPERTIES);
 }
   
 public function onDisable(){
@@ -42,7 +43,7 @@ $FirstJoinExperience = $this->getConfig()->get("FirstJoin_Experience");
 $name = $e->getPlayer()->getName();
 if(!$this->experience->exist($name)){
 if($this->getConfig()->get("FirstJoin_Experience_Enabler") == "true"){
-$this->experience->set($name [] + $FirstJoinExperience);
+experience->set($name $FirstJoinExperience);
    }
   }
 }
@@ -54,12 +55,13 @@ if($this->getConfig()->get("Popup_Show_Experience") == "true"){
   }
 }
 
+//Sposta nella vera funzione PlayerInteractEvent sotto
 public function OnInteract(PlayerInteractEvent $e){
 $p = $e->getPlayer();
 $name = $e->getPlayer()->getName();
 $Exp_Bottle_Quantity = $this->getConfig()->get("Exp_Bottle_Quantity");
 if($p->getInventory()->getItemOnHand() == Item::/*devo trovare un item da mettere xD*/){
-$p->getInventory()->removeItem(Item::$Exp_Bottle);
+$p->getInventory()->removeItem(Item::?);
 $this->experience->set($name [] + $Exp_Bottle_Quantity);
       }
 }
@@ -77,8 +79,18 @@ $this->experience->set($name [] + $Exp_Bottle_Quantity);
             $sender->sendMessage(TextFormat::GREEN . "You have ".$exp);
             break;
           
+          case "exphelp":
+               if($sender->hasPermission("experience.manage")){
+                  $sender->sendMessage(TextFormat::AQUA . "-=-=-Help For Experience-=-=-");
+                  $sender->sendMessage(TextFormat::AQUA . "/$exp_command for show your exp");
+                  $sender->sendMessage(TextFormat::AQUA . "/$addexp_command for add exp to a player");
+                  $sender->sendMessage(TextFormat::AQUA . "/$rmexp_command for remove exp to a player");
+                  if($this->getConfig()->get("Enchant_Sign") == "true"){
+                  $sender->sendMessage(TextFormat::AQUA . "For use the EnchantShop feauture write in the first line of a sign the secret code");
+                  $sender->sendMessage(TextFormat::AQUA . "in the second line write the")
+                  }
           case "$addexp_command":
-            if($sender->hasPermission("experience.addexp")){
+            if($sender->hasPermission("experience.manage")){
             $sender->sendMessage(TextFormat::GREEN . "Succesfully added ".$quantity TextFormat::GREEN . "to ".$name);
             break;
             $this->experience->set($name [] + $quantity);
@@ -88,7 +100,7 @@ $this->experience->set($name [] + $Exp_Bottle_Quantity);
             break;
           
           case "$rmexp_command":
-            if($sender->hasPermission("experience.rmexp")){
+            if($sender->hasPermission("experience.manage")){
             $sender->sendMessage(TextFormat::GREEN . "Succesfully removed ".$quantity TextFormat::GREEN . "to ".$name);
             $this->experience->set($name [] - $quantity);
             }else{
@@ -139,3 +151,14 @@ $this->experience->set($name [] + $Exp_PerKill);
         }
       }
 }
+
+public function onAchievementAwarded(PlayerAchievementAwardedEvent $e){
+$p = $e->getPlayer();
+$name = $e->getPlayer()->getName();
+$ExpAchievement = $this->getConfig()->get("ExpAchievement");
+if($this->getConfig()->get("Exp_OnAchievement") == "true"){
+      $this->experience->set($name [] + $ExpAchievement);
+            }
+      }
+}
+?>
