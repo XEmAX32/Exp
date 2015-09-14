@@ -55,6 +55,7 @@ $Exp_Bottle_Quantity = $this->getConfig()->get("Exp_Bottle_Quantity");
 if($p->getInventory()->getItemOnHand() == Item::/*devo trovare un item da mettere xD*/){
 $p->getInventory()->removeItem(Item::$Exp_Bottle);
 $this->points->set($name [] + $Exp_Bottle_Quantity);
+      }
 }
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
@@ -117,8 +118,7 @@ public function onPlace(BlockPlaceEvent $e){
 $line1 = $e->getLine(1);
 $secretcode = $this->getConfig()->get("Secret_Code");
 if($ID == 68 or $ID == 63 && $line1 == $secretcode){
-  $e->setLine(1) == TextFormat::GREEN . "[Enchanter]" 
-  
-}
-}
+  $e->setLine(1, TextFormat::GREEN . "[Enchanter]"); 
+            }
+      }
 }
