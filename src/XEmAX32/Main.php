@@ -24,12 +24,15 @@ $this->getLogger()->info(TextFormat::BLUE . "EXP disabled!");
 public function OnItemHeld(PlayerInteractEvent $e){
 $p = $e->getPlayer();
 $Exp_Bottle = $this->getConfig()->get("Exp_Bottle");
-if($p->getInventory()->getItemOnHand() == Item::$Exp_Bottle){
+if($p->getInventory()->getItemOnHand() == Item::/*devo trovare un item da mettere xD*/){
 $p->getInventory()->removeItem(Item::$Exp_Bottle);
 }
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(strtolower($command->getName()){
+          $addexp_command = $this->getConfig()->get("AddExp_Command");
+          $exp_command = $this->getConfig()->get("MyExp_Command");
+          $rmexp_command = $this->getConfig()->get("RmExp_Command");
           case "$exp_command":
             $sender->sendMessage(TextFormat::GREEN . "You have ".$exp);
             break;
