@@ -15,15 +15,29 @@ public function onEnable(){
 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 $this->getLogger()->info(TextFormat::BLUE . "EXP enabled!");
 $this->saveDefaultConfig();
+$this->experience = new Config($this->getDataFolder()."experience.yml", Config::YAML);
 }
   
 public function onDisable(){
 $this->getLogger()->info(TextFormat::BLUE . "EXP disabled!");
+$this->experience->save();
 }
 
-public function OnItemHeld(PlayerInteractEvent $e){
+public function OnLoad(){
+$this->experience->save();
+}
+
+public function onJoin(PlayerJoinEvent $e){
+$FirstJoinExperience = $this->getConfig()->get("FirstJoin_Experience");
+if(!$this->experience->exist($player)){
+if($this->getConfig()->get("FirstJoin_Experience_Enabler") == "true"){
+$this->experience->set($player, array($FirstJoinExperience);
+   }
+  }
+}
+
+public function OnInteract(PlayerInteractEvent $e){
 $p = $e->getPlayer();
-$Exp_Bottle = $this->getConfig()->get("Exp_Bottle");
 if($p->getInventory()->getItemOnHand() == Item::/*devo trovare un item da mettere xD*/){
 $p->getInventory()->removeItem(Item::$Exp_Bottle);
 }
@@ -32,7 +46,10 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
         if(strtolower($command->getName()){
           $addexp_command = $this->getConfig()->get("AddExp_Command");
           $exp_command = $this->getConfig()->get("MyExp_Command");
+          $exp = $this->experience->get("$player");
           $rmexp_command = $this->getConfig()->get("RmExp_Command");
+          $quantity = 
+          $name = $e->getPlayer()->getName();
           case "$exp_command":
             $sender->sendMessage(TextFormat::GREEN . "You have ".$exp);
             break;
@@ -41,6 +58,7 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
             if($sender->hasPermission("experience.addexp")){
             $sender->sendMessage(TextFormat::GREEN . "Succesfully added ".$quantity TextFormat::GREEN . "to ".$name);
             break;
+            $this->experience->set($name)
             }else{
               $sender->sendMessage(TextFormat::RED . "You don't have permissions for run this command");
             }
