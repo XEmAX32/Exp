@@ -56,8 +56,13 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
   public function onPlayerInteract(PlayerInteractEvent $e){
     $ID  = $e->getBlock()->getID();
     $p = $e->getPlayer();
+    $line1 = $e->getLine(1);
+    $line2 = $e->getLine(2);
+    $line3 = $e->getLine(3);
+    $line4 = $e->getLine(4);
+    $secretcode = $this->getConfig()->get("Secret_Code");
     if($ID == 68 or $ID == 63){
-      if($tile->gettext(0) == "[EnchantShop]"){
+      if($line1 == $secretcode){
       }
       }
   }
