@@ -30,8 +30,6 @@ $p->getInventory()->removeItem(Item::$Exp_Bottle);
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(strtolower($command->getName()){
-          $MyExp_Message = $this->getConfig()->get("MyExp_Message");
-          $name = $e->getPlayer()->getName();
           case "$exp_command":
             $sender->sendMessage(TextFormat::GREEN . "You have ".$exp);
             break;
