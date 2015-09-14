@@ -1,8 +1,8 @@
-# Exp
+# Experience By XEmAX32
 This is a plugin for add experience to your server
 experience plugin
 
-To-Do
+#To-Do
 1) add only armor, sword, pickaxe, axe, and other instruments enchant
 2) add info command
 3) if you want other thinks pm me on PocketMine :D
