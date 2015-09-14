@@ -8,11 +8,16 @@
 namespace XEmAX32\Main;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\event\PlayerInteractEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
+use pocketmine\block;
+use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\player;
 
 class Main extends PluginBase implements Listener{
 
@@ -34,9 +39,10 @@ $this->experience->save();
 
 public function onJoin(PlayerJoinEvent $e){
 $FirstJoinExperience = $this->getConfig()->get("FirstJoin_Experience");
-if(!$this->experience->exist($player)){
+$name = $e->getPlayer()->getName();
+if(!$this->experience->exist($name)){
 if($this->getConfig()->get("FirstJoin_Experience_Enabler") == "true"){
-$this->experience->set($player, array($FirstJoinExperience);
+$this->experience->set($name [] + $FirstJoinExperience);
    }
   }
 }
@@ -54,12 +60,13 @@ $name = $e->getPlayer()->getName();
 $Exp_Bottle_Quantity = $this->getConfig()->get("Exp_Bottle_Quantity");
 if($p->getInventory()->getItemOnHand() == Item::/*devo trovare un item da mettere xD*/){
 $p->getInventory()->removeItem(Item::$Exp_Bottle);
-$this->points->set($name [] + $Exp_Bottle_Quantity);
+$this->experience->set($name [] + $Exp_Bottle_Quantity);
       }
 }
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(strtolower($command->getName()){
+            //sistemare le funzioni
           $addexp_command = $this->getConfig()->get("AddExp_Command");
           $exp_command = $this->getConfig()->get("MyExp_Command");
           $exp = $this->experience->get("$name");
@@ -99,6 +106,7 @@ $this->points->set($name [] + $Exp_Bottle_Quantity);
     $line3 = $e->getLine(3);
     $line4 = $e->getLine(4);
     $secretcode = $this->getConfig()->get("Secret_Code");
+    if($this->getConfig()->get("Enchant_Sign") == "true"){
     if($ID == 68 or $ID == 63){
       if($line1 == $secretcode){
         $rmexperience = $line3;
@@ -110,9 +118,10 @@ $this->points->set($name [] + $Exp_Bottle_Quantity);
                $item->addEnchantment($enchantment);
                 $enchantment = Enchantment::getEnchantment($addenchant);
                 $enchantment->setLevel($level);
-        }
+                  }
+                }
       }
-  }
+}
 
 public function onPlace(BlockPlaceEvent $e){
 $line1 = $e->getLine(1);
@@ -120,5 +129,13 @@ $secretcode = $this->getConfig()->get("Secret_Code");
 if($ID == 68 or $ID == 63 && $line1 == $secretcode){
   $e->setLine(1, TextFormat::GREEN . "[Enchanter]"); 
             }
+      }
+
+public function onDeath(PlayerDeathEvent $e){
+if($this->getConfig()->get("AddExp_OnKill") == "true"){
+$Exp_PerKill = $this->getConfig()->get("Exp_PerKill");
+$name = $e->getEntity()->getLastDamageCause()->getDamager();
+$this->experience->set($name [] + $Exp_PerKill);
+        }
       }
 }
