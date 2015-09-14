@@ -1,3 +1,19 @@
 #Config file of Experience plugin by XEmAX32
-#Here write the name in capitals letters of the exp bottle item
-Exp_Bottle:
+#Here write the quantity of the exp bottle feauture
+Exp_Bottle_Quantity: 500
+#If you want to add experience on a player first join write true
+FirstJoin_Experience_Enabler: false
+#If you have enabled the FirstJoin_Experience function here write the number of experience on first join
+FirstJoin_Experience: 100
+#If you want to show every seconds experience whit a popup write true
+Popup_Show_Experience: false
+#Here if you want write your own command for show the exp quantity
+MyExp_Command: myexp
+#Here if you want write your own command for add exp to a player
+AddExp_Command: addexp
+#Here if you want write your own command for remove exp from a player
+RmExp_Command: rmexp
+#If you want to enable the enchant sign feauture write true
+Enchant_Sign: false
+#Here write your secret code for create enchant sign if you have enabled that feauture
+Secret_Code: k0jd0lj
