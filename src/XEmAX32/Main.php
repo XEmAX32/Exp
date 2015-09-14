@@ -3,7 +3,7 @@
 namespace XEmAX32\Main;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\event\PlayerItemHeld;
+use pocketmine\event\PlayerInteractEvent;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -21,7 +21,7 @@ public function onDisable(){
 $this->getLogger()->info(TextFormat::BLUE . "EXP disabled!");
 }
 
-public function OnItemHeld(PlayerItemHeldEvent $e){
+public function OnItemHeld(PlayerInteractEvent $e){
 $p = $e->getPlayer();
 $Exp_Bottle = $this->getConfig()->get("Exp_Bottle");
 if($p->getInventory()->getItemOnHand() == Item::$Exp_Bottle){
