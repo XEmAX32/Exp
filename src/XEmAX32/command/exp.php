@@ -1,5 +1,10 @@
 <?php
 
+      #############################
+      #   Experience By XEmAX32   #
+      #     v1.0 in Development   #
+      #############################
+      
 namespace ExperienceWorld\commands;
 
 use pocketmine\command\Command;
