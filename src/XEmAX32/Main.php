@@ -66,15 +66,17 @@ $this->experience->set($name [] + $Exp_Bottle_Quantity);
       }
 }
 
+//COMANDI VARI
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(strtolower($command->getName()){
             //sistemare le funzioni
           $addexp_command = $this->getConfig()->get("AddExp_Command");
           $exp_command = $this->getConfig()->get("MyExp_Command");
-          $exp = $this->experience->get("$name");
+          $exp = $experience->get($name);
           $rmexp_command = $this->getConfig()->get("RmExp_Command");
           $quantity = 
           $name = $e->getPlayer()->getName();
+          
           case "$exp_command":
             $sender->sendMessage(TextFormat::GREEN . "You have ".$exp);
             break;
@@ -92,49 +94,22 @@ $this->experience->set($name [] + $Exp_Bottle_Quantity);
           case "$addexp_command":
             if($sender->hasPermission("experience.manage")){
             $sender->sendMessage(TextFormat::GREEN . "Succesfully added ".$quantity TextFormat::GREEN . "to ".$name);
-            break;
-            $this->experience->set($name [] + $quantity);
+            $this->addExp();
             }else{
-              $sender->sendMessage(TextFormat::RED . "You don't have permissions for run this command");
+            $sender->sendMessage(TextFormat::RED . "You don't have permissions for run this command");
             }
             break;
-          
-          case "$rmexp_command":
-            if($sender->hasPermission("experience.manage")){
-            $sender->sendMessage(TextFormat::GREEN . "Succesfully removed ".$quantity TextFormat::GREEN . "to ".$name);
-            $this->experience->set($name [] - $quantity);
-            }else{
-              $sender->sendMessage(TextFormat::RED . "You don't have permissions for run this command")
-            }
-            break;
-        }
-    }
-    
-  public function onPlayerInteract(PlayerInteractEvent $e){
-    $ID  = $e->getBlock()->getID();
-    $p = $e->getPlayer();
-    $line1 = $e->getLine(1);
-    $line2 = $e->getLine(2);
-    $line3 = $e->getLine(3);
-    $line4 = $e->getLine(4);
-    $secretcode = $this->getConfig()->get("Secret_Code");
-    if($this->getConfig()->get("Enchant_Sign") == "true"){
-    if($ID == 68 or $ID == 63){
-      if($line1 == $secretcode){
-        $rmexperience = $line3;
-        $item = $p->getInventory()->getItemOnHand();
-        $addenchant = $line2;
-        $level = $line4;
-        $name = $e->getPlayer()->getName();
-           $this->experience->set($name [] - $rmexperience);
-               $item->addEnchantment($enchantment);
-                $enchantment = Enchantment::getEnchantment($addenchant);
-                $enchantment->setLevel($level);
-                  }
-                }
-      }
-}
 
+          case "$rmexp_command":
+            if($sender->hasPermission("experience.menage")){
+            $sender->sendMessage(TextFormat::GREEN . "Succesfully removed ".$quantity TextFormat::GREEN . "to  ".$name);
+            $this->rmExp();
+            }else{
+            $sender->sendMessage(TextFormat::RED . "You don't have permissions for run this command");
+            }
+            break;
+
+//PLACE DEI CARTELLI
 public function onPlace(BlockPlaceEvent $e){
 $line1 = $e->getLine(1);
 $secretcode = $this->getConfig()->get("Secret_Code");
@@ -145,20 +120,44 @@ if($ID == 68 or $ID == 63 && $line1 == $secretcode){
 
 public function onDeath(PlayerDeathEvent $e){
 if($this->getConfig()->get("AddExp_OnKill") == "true"){
-$Exp_PerKill = $this->getConfig()->get("Exp_PerKill");
+$quantity = $this->getConfig()->get("Exp_PerKill");
 $name = $e->getEntity()->getLastDamageCause()->getDamager();
-$this->experience->set($name [] + $Exp_PerKill);
+$this->addExp();
         }
       }
 }
 
+public function onInteract(PlayerInteractEvent $e){
+if($ID == 63 or $ID == 68){
+      $line1 = $tile->getLine(1);
+      $line2 = $tile->getLine(2);
+      $line3 = $tile->getLine(3);
+      $line4 = $tile->getLine(4);
+      $item = $e->getPlayer()->getInventory()->getItemOnHand();
+      $tile = $event->getBlock()->getLevel()->getTile(new Vector3($event->getBlock()->getX(),$event->getBlock()->getY(),$event->getBlock()->getZ()));
+        	if($tile instanceof Sign){
+        	      if($tile->$line1 == "[Enchanter]"){
+        	            if($item == Item::256 or $item == Item::257 or $item == Item::258 or $item == Item::261 or $item == Item::267 or $item == Item::268 or $item == Item::269 or $item == Item::270 or $item == Item::271 or $item == Item::272 or $item == Item::273 or $item == Item::274 or $item == Item::275 or $item == Item::276 or $item == Item::277 or $item == Item::278 or $item == Item::279 or $item == Item::283 or $item == Item::284 or $item == Item::285 or $item == Item::286){
+        	            $player->addEnchant  
+        	                  
+        	            }
+}
+}
 public function onAchievementAwarded(PlayerAchievementAwardedEvent $e){
 $p = $e->getPlayer();
 $name = $e->getPlayer()->getName();
-$ExpAchievement = $this->getConfig()->get("ExpAchievement");
+$quantity = $this->getConfig()->get("ExpAchievement");
 if($this->getConfig()->get("Exp_OnAchievement") == "true"){
-      $this->experience->set($name [] + $ExpAchievement);
+$this->addExp();
             }
+      }
+      
+public function addExp(){
+$experience->set($name + $quantity);
+      }
+      
+public function rmExp(){
+$experience->set($name - $quantity);
       }
 }
 ?>
