@@ -14,7 +14,7 @@ class ExperienceWorldCommand extends Command implements PluginIdentifiableComman
     /** @var SubCmd[] */
     public $subCommands = [];
     public function __construct(Main $ExperienceWorld){
-        parent::__construct("tntrun", "ExperienceWorld main command", "/exp help", ["ew"]);
+        parent::__construct("experience", "ExperienceWorld main command", "/exp help", ["ew"]);
         $this->ExperienceWorld = $ExperienceWorld;
         $this->setPermission("experience.command");
         foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->getPlugin()->getSubCommands())) as $obj){
