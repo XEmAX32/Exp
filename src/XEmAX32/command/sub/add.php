@@ -1,7 +1,7 @@
 <?php
 
       #############################
-      #   ExperienceWorld By XEmAX32   #
+      #   Experience By XEmAX32   #
       #     v1.0 in Development   #
       #############################
       
