@@ -1,6 +1,6 @@
 <?php
 
-namespace ExperienceWorld\Commands;
+namespace ExperienceWorld\commands;
 
 use pocketmine\command\CommandSender;
 use ExperienceWorld\Main;
